@@ -10,7 +10,7 @@ def handle_transaction(transaction_event):
         findings.append(Finding({
             'name': 'Suspicious Transaction',
             'description': f'Transaction from blacklisted address {from_}',
-            'alert_id': 'FORTA-1',
+            'alert_id': 'FORTAKNIGHT-1',
             'severity': FindingSeverity.High,
             'type': FindingType.Info,
             'metadata': {

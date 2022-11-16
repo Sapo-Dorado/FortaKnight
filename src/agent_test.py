@@ -23,7 +23,7 @@ class TestHighTetherTransferAgent:
         finding = findings[0]
         assert finding.name == "Suspicious Transaction"
         assert finding.description == f'Transaction from blacklisted address {BLACKLISTED_ADDRESSES[0]}'
-        assert finding.alert_id == "FORTA-1"
+        assert finding.alert_id == "FORTAKNIGHT-1"
         assert finding.severity == FindingSeverity.High
         assert finding.type == FindingType.Info
         assert finding.metadata['from'] == BLACKLISTED_ADDRESSES[0]
