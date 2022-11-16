@@ -2,7 +2,7 @@
 
 ## Description
 
-This agent detects transactions with large Tether transfers
+This agent detects transactions from blacklisted addresses
 
 ## Supported Chains
 
