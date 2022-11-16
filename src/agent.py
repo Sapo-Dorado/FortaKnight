@@ -14,7 +14,7 @@ def handle_transaction(transaction_event):
             'severity': FindingSeverity.High,
             'type': FindingType.Info,
             'metadata': {
-                'from_': from_,
+                'from': from_,
             }
         }))
     return findings
