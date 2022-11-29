@@ -1,7 +1,7 @@
 from forta_agent import Finding, FindingType, FindingSeverity
 
 #Update this to be accurate
-BLACKLISTED_ADDRESSES = ["0x5c1fe6f340dd36b5daf88c2cf390bf715d2af139"]
+BLACKLISTED_ADDRESSES = ["0x5c1fe6f340dd36b5daf88c2cf390bf715d2af139","0x15FE7CE21B181a4706063B31E5c968477c7A00Cc"]
 
 def handle_transaction(transaction_event):
     findings = []
