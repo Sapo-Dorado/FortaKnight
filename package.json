@@ -1,10 +1,11 @@
 {
   "name": "forta-knight-initial-bot",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "This bot detects transactions from blacklisted addresses",
   "chainIds": [
     1,
-    37
+    37,
+    137
   ],
   "scripts": {
     "postinstall": "python3 -m pip install -r requirements_dev.txt",
