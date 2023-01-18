@@ -1,18 +1,18 @@
-import src.parser as parser
+import parser
 
 CONTRACTS = ["SafeMath", "Ownable","Pausable", "ERC20Basic", "ERC20","BasicToken","StandardToken","UpgradedStandardToken","TetherToken"]
 TETHER_FUNCTIONS = ["TetherToken", "transfer", "transferFrom", "balanceOf", "approve", "allowance", "deprecate", "totalSupply", "issue", "redeem", "setParams"]
 
 class TestParser:
   def test_parse_parses_contracts(self):
-    ast = parser.parse("./test/contracts/TetherToken.sol")
+    ast = parser.parse("./src/contracts/TetherToken.sol")
     contracts = parser.getContracts(ast)
     names = [c.name for c in contracts]
     for contract_name in CONTRACTS:
       assert(contract_name in names)
 
   def test_parse_parses_functions(self):
-    ast = parser.parse("./test/contracts/TetherToken.sol")
+    ast = parser.parse("./src/contracts/TetherToken.sol")
     contracts = parser.getContracts(ast)
     contract = None
     for c in contracts:

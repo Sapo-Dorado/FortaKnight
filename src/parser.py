@@ -17,6 +17,3 @@ def getFunctions(contract):
 def parse(file):
   return parser.parse_file(file, loc=False)
 
-
-ast = parse("./test/contracts/TetherToken.sol")
-print(getFunctions(getContracts(ast)[0])[0])
