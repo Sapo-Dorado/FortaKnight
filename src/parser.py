@@ -1,4 +1,28 @@
+from abc import ABC, abstractmethod
 from solidity_parser import parser
+
+class Detector(ABC):
+  def check(self, text):
+    ast = parser.parse(text)
+    return self.analyze(ast)
+
+  def check_file(self, file):
+    ast = parser.parse_file(file)
+    return self.analyze(ast)
+  
+  #Should return a bool
+  @abstractmethod
+  def analyze(self, ast):
+    return False
+
+def parse_file(file):
+  return parser.parse_file(file, loc=False)
+
+def parse(text):
+  return parser.parse(text, loc=False)
+
+def visit(ast, visitor):
+  parser.visit(ast, visitor)
 
 def getContracts(root):
   contracts = []
@@ -28,10 +52,3 @@ def getStatements(block):
   for statement in block.statements:
     statements.append(statement)
   return statements
-
-def parse_file(file):
-  return parser.parse_file(file, loc=False)
-
-def parse(text):
-  return parser.parse(text, loc=False)
-

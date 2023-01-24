@@ -1,7 +1,23 @@
+from parser import Detector
 import parser
 
 CONTRACTS = ["SafeMath", "Ownable","Pausable", "ERC20Basic", "ERC20","BasicToken","StandardToken","UpgradedStandardToken","TetherToken"]
 TETHER_FUNCTIONS = ["TetherToken", "transfer", "transferFrom", "balanceOf", "approve", "allowance", "deprecate", "totalSupply", "issue", "redeem", "setParams"]
+
+class IfStatementDetector(Detector):
+  class IfStatementVisitor:
+    def __init__(self):
+      self.has_if = False
+
+    def visitIfStatement(self, node):
+      self.has_if = True
+
+  def analyze(self, ast):
+    visitor = self.IfStatementVisitor()
+    parser.visit(ast, visitor)
+    return visitor.has_if
+    
+
 
 class TestParser:
   def test_parse_parses_contracts(self):
@@ -47,6 +63,14 @@ class TestParser:
     assert(parameters[0].name == "x")
     assert(len(statements) == 1)
     assert(statements[0].type == "IfStatement")
+  
+  def test_detector(self):
+    detector = IfStatementDetector()
+    no_if_result = detector.check_file("./src/contracts/NoIfStatements.sol")
+    if_result = detector.check_file("./src/contracts/Test.sol")
+    assert(if_result and not no_if_result)
+    
+
 
 
 
