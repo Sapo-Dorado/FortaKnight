@@ -5,14 +5,20 @@ TETHER_FUNCTIONS = ["TetherToken", "transfer", "transferFrom", "balanceOf", "app
 
 class TestParser:
   def test_parse_parses_contracts(self):
-    ast = parser.parse("./src/contracts/TetherToken.sol")
+    text = ""
+    with open("./src/contracts/TetherToken.sol", 'r') as f:
+      text = f.read()
+    ast = parser.parse(text)
     contracts = parser.getContracts(ast)
     names = [c.name for c in contracts]
     for contract_name in CONTRACTS:
       assert(contract_name in names)
 
   def test_parse_parses_functions(self):
-    ast = parser.parse("./src/contracts/TetherToken.sol")
+    text = ""
+    with open("./src/contracts/TetherToken.sol", 'r') as f:
+      text = f.read()
+    ast = parser.parse(text)
     contracts = parser.getContracts(ast)
     contract = None
     for c in contracts:

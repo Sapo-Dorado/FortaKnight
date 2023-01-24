@@ -14,6 +14,6 @@ def getFunctions(contract):
       functions.append(v)
   return functions
 
-def parse(file):
-  return parser.parse_file(file, loc=False)
+def parse(text):
+  return parser.parse(text, loc=False)
 
