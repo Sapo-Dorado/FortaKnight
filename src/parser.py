@@ -14,6 +14,21 @@ def getFunctions(contract):
       functions.append(v)
   return functions
 
+def getParameters(function):
+  parameters = []
+  for p in function.parameters.parameters:
+    parameters.append(p)
+  return parameters
+
+def getBody(function):
+  return function.body
+
+def getStatements(block):
+  statements = []
+  for statement in block.statements:
+    statements.append(statement)
+  return statements
+
 def parse_file(file):
   return parser.parse_file(file, loc=False)
 

@@ -37,4 +37,17 @@ class TestParser:
     for fn_name in TETHER_FUNCTIONS:
       assert(fn_name in names)
 
+  def test_helpers(self):
+    ast = parser.parse_file("./src/contracts/Test.sol")
+    contract = parser.getContracts(ast)[0]
+    function = parser.getFunctions(contract)[0]
+    parameters = parser.getParameters(function)
+    statements = parser.getStatements(parser.getBody(function))
+    assert(len(parameters) == 2)
+    assert(parameters[0].name == "x")
+    assert(len(statements) == 1)
+    assert(statements[0].type == "IfStatement")
+
+
+
 
