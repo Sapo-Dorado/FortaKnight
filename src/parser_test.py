@@ -14,6 +14,13 @@ class TestParser:
     for contract_name in CONTRACTS:
       assert(contract_name in names)
 
+  def test_parse_file_parses_contracts(self):
+    ast = parser.parse_file("./src/contracts/TetherToken.sol")
+    contracts = parser.getContracts(ast)
+    names = [c.name for c in contracts]
+    for contract_name in CONTRACTS:
+      assert(contract_name in names)
+
   def test_parse_parses_functions(self):
     text = ""
     with open("./src/contracts/TetherToken.sol", 'r') as f:
