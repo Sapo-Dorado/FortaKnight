@@ -1,5 +1,5 @@
-from parser import Detector
-import parser
+from src.parser import Detector
+import src.parser as parser
 
 CONTRACTS = ["SafeMath", "Ownable","Pausable", "ERC20Basic", "ERC20","BasicToken","StandardToken","UpgradedStandardToken","TetherToken"]
 TETHER_FUNCTIONS = ["TetherToken", "transfer", "transferFrom", "balanceOf", "approve", "allowance", "deprecate", "totalSupply", "issue", "redeem", "setParams"]
