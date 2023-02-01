@@ -1,10 +1,9 @@
-import requests
 from unittest.mock import patch, Mock
-from etherscanAPI import EtherscanAPI
+import src.etherscan_api as etherscan
 
-class Test_EtherscanAPI:
+class TestEtherscanApi:
     def test_get_source_code(self):
-        mock_response = [{
+        mock_response = {
                         'status':'1', 
                         'message':'OK',
                         'result':[
@@ -24,15 +23,14 @@ class Test_EtherscanAPI:
                             "SwarmSource":""
                             }
                         ]
-                    }]
-        with patch('etherscanAPI.requests.get') as mock_get:
+                    }
+        with patch('requests.get') as mock_get:
             mock_get.return_value.json.return_value = mock_response
             address = "0xb429dA13f0Bf08962c26e44Ba34627e7b0E560F6"
 
-            api = EtherscanAPI()
-            source = api.getSourceCode(address)
+            source = etherscan.getSourceCode(address)
 
-        self.assertEqual(source, "Mock_Source_Code")
+        assert(source == "Mock_Source_Code")
 
             
 
