@@ -1,6 +1,6 @@
 from unittest.mock import Mock
 from forta_agent import FindingSeverity, FindingType, create_transaction_event
-from agent import handle_transaction, BLACKLISTED_ADDRESSES
+from src.agent import handle_transaction, BLACKLISTED_ADDRESSES
 
 VALID_ADDRESS1 = "0x58f3DB9d89eCC7c653F531689BCceD3937b797cc"
 VALID_ADDRESS2 = "0x58f3DB9d89eCC7c653F531689BCceD3937b797cd"
