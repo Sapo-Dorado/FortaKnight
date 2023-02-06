@@ -16,6 +16,14 @@ class BalanceRemovalDetector(Detector):
     def visitMemberAccess(self, node):
       if node.memberName == "balance":
         self.foundBalance = True
+        
+  class SelfDestructVisitor:
+    def __init__(self):
+      self.foundSelfDestruct = False
+      
+    def visitSDAccess(self, node):
+      if node.memberName == "SelfDestruct":
+        self.foundSelfDestruct = True
 
   def analyze(self, ast):
     transferVisitor = self.TransferVisitor()
@@ -27,3 +35,4 @@ class BalanceRemovalDetector(Detector):
       if(balanceVisitor.foundBalance):
         return True
     return False
+  
