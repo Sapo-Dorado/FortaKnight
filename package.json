@@ -26,7 +26,6 @@
     "test": "python3 -m pytest"
   },
   "dependencies": {
-    "@solidity-parser/parser": "^0.14.5",
     "dotenv": "^16.0.3",
     "forta-agent": "^0.1.13"
   },

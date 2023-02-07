@@ -16,21 +16,10 @@ class BalanceRemovalDetector(Detector):
     def visitMemberAccess(self, node):
       if node.memberName == "balance":
         self.foundBalance = True
-        
-  class SelfDestructVisitor:
-    def __init__(self):
-      self.foundSelfDestruct = False
-      
-    def visitIdentifier(self, node):
-      if node.name == "selfdestruct":
-        self.foundSelfDestruct = True
 
   def analyze(self, ast):
     transferVisitor = self.TransferVisitor()
     parser.visit(ast, transferVisitor)
-    
-    selfDestructVisitor = self.SelfDestructVisitor()
-    parser.visit(ast, selfDestructVisitor)
 
     balanceVisitor = self.BalanceVisitor()
     for t in transferVisitor.transfers:
