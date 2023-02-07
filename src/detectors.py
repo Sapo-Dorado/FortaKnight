@@ -27,3 +27,22 @@ class BalanceRemovalDetector(Detector):
       if(balanceVisitor.foundBalance):
         return True
     return False
+  
+  
+class SelfDestructDetector(Detector):
+  class SelfDestructVisitor:
+    def __init__(self):
+      self.foundSelfDestruct = False
+      
+    def visitIdentifier(self, node):
+      if node.name == "selfdestruct":
+        self.foundSelfDestruct = True
+
+  def analyze(self, ast):
+    selfDestructVisitor = self.SelfDestructVisitor()
+    parser.visit(ast, selfDestructVisitor)
+    
+    if selfDestructVisitor.foundSelfDestruct:
+      return True
+    return False
+  
