@@ -54,11 +54,12 @@ library SafeMath {
 }
 
 contract Test {
-  function testFunction(uint x, uint y) public returns (bool) {
+  using SafeMath for uint;
+  function testFunction(uint x, uint y) public returns (uint) {
     if(x == y) {
-      return true;
+      return x;
     } else {
-      return false;
+      return x.sub(y);
     }
   }
 
