@@ -13,7 +13,7 @@ with open("./analysis/ContractAddresses.txt") as f:
       count += 1
 
 file_count = 0
-files = os.listdir("./analysis/Contracts")
+files = os.listdir(contract_dir)
 for filename in files:
   with open(f"{contract_dir}/{filename}") as f:
     if(len(f.readlines()) == 0):
