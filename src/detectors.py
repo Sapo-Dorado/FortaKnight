@@ -27,3 +27,23 @@ class BalanceRemovalDetector(Detector):
       if(balanceVisitor.foundBalance):
         return True
     return False
+
+  
+class ChipsSquadDetector(Detector): 
+  class ChipsSquadVisitor:
+    def __init__(self):
+      self.foundConstant = False
+
+    def visitBinaryOperation(self, node):
+      if(node.right.type == "NumberLiteral"):
+        self.foundConstant = True
+      elif(node.left.type == "NumberLiteral"):
+        self.foundConstant = True
+    
+  def analyze(self, ast):
+    chipsSquadVisitor = self.ChipsSquadVisitor()
+    parser.visit(ast, chipsSquadVisitor)
+
+    if(chipsSquadVisitor.foundConstant):
+      return True
+    return False
