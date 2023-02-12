@@ -13,4 +13,6 @@ class TestBalanceRemovalDetector:
     detector = SelfDestructDetector()
     assert(detector.check_file("./src/contracts/SelfDestruct.sol"))
   
-    
+  def test_detects_hidden_mint_contract(self):
+    detector = ChipsSquadDetector()
+    assert(detector.check_file("./src/contracts/ChipsSquadTest.sol"))    
