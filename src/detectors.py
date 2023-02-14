@@ -64,3 +64,26 @@ class ChipsSquadDetector(Detector):
     if(chipsSquadVisitor.foundConstant):
       return True
     return False
+
+class TokenBurningDetector(Detector):
+  class NullAddressTransferVisitor:
+    def __init__(self):
+      self.foundTransfer_to_NullAddress = False
+    
+    def visitEmitStatement(self, node):#Detecting for the statement emit Transfer(from, to, amount); where to = address(0)
+      if((node.eventCall.type == "FunctionCall") and (node.eventCall.expression.type == "Identifier") and (node.eventCall.expression.name == "Transfer")):
+        arguments = node.eventCall.arguments
+        if(arguments[1]):
+          if((arguments[1].type == "FunctionCall") and (arguments[1].expression.type == "ElementaryTypeName") and (arguments[1].expression.name == "address")):
+            subargument = arguments[1].arguments
+            if(subargument):
+              if((subargument[0].type == "NumberLiteral") and (subargument[0].number == "0")):
+                self.foundTransfer_to_NullAddress = True
+  
+  def analyze(self, ast):
+    NATVisitor = self.NullAddressTransferVisitor()
+    parser.visit(ast, NATVisitor)
+
+    if(NATVisitor.foundTransfer_to_NullAddress):
+      return True
+    return False
