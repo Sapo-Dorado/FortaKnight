@@ -87,3 +87,20 @@ class TokenBurningDetector(Detector):
     if(NATVisitor.foundTransfer_to_NullAddress):
       return True
     return False
+
+class HiddenMintDetector(Detector): 
+  class HiddenMintVisitor:
+    def __init__(self):
+      self.foundConstant = False
+
+    def visitUserDefinedTypeName(self, node):
+      if(node.namePath == "_totalSupply.add"):
+        self.foundConstant = True
+    
+  def analyze(self, ast):
+    hiddenMintVisitor = self.HiddenMintVisitor()
+    parser.visit(ast, hiddenMintVisitor)
+
+    if(hiddenMintVisitor.foundConstant):
+      return True
+    return False

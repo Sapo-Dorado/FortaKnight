@@ -21,3 +21,7 @@ class TestBalanceRemovalDetector:
   def test_detects_BurnFunction_contract(self):
     detector = TokenBurningDetector()
     assert(detector.check_file("./src/contracts/ERC20.sol"))  
+
+  def test_detects_hidden_mint(self):
+    detector = HiddenMintDetector()
+    assert(detector.check_file("./src/contracts/HiddenMintTest.sol"))
