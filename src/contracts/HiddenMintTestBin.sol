@@ -1,6 +1,3 @@
-pragma solidity ^0.8.0;
-
-
 contract Test {
 
   uint _totalSupply;
@@ -13,7 +10,7 @@ contract Test {
 
   function _mint(address account, uint256 amount) {
 
-      _totalSupply = _totalSupply.add(amount); 
+      _totalSupply = _totalSupply + (amount) ; 
 
   }
 
