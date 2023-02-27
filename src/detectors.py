@@ -6,8 +6,11 @@ class BalanceRemovalDetector(Detector):
     def __init__(self):
       self.transfers = []
     def visitFunctionCall(self, node):
-      if(node.expression.type == "MemberAccess" and node.expression.memberName == "transfer"):
-        self.transfers.append(node)
+      try:
+        if(node.expression.type == "MemberAccess" and node.expression.memberName == "transfer"):
+          self.transfers.append(node)
+      except:
+        pass
   
   class BalanceVisitor:
     def __init__(self):
@@ -38,8 +41,11 @@ class SelfDestructDetector(Detector):
       self.foundSelfDestruct = False
       
     def visitIdentifier(self, node):
-      if node.name == "selfdestruct":
-        self.foundSelfDestruct = True
+      try:
+        if node.name == "selfdestruct":
+          self.foundSelfDestruct = True
+      except:
+        pass
 
   def analyze(self, ast):
     selfDestructVisitor = self.SelfDestructVisitor()
@@ -55,10 +61,13 @@ class ChipsSquadDetector(Detector):
       self.foundConstant = False
 
     def visitBinaryOperation(self, node):
-      if(node.right.type == "NumberLiteral"):
-        self.foundConstant = True
-      elif(node.left.type == "NumberLiteral"):
-        self.foundConstant = True
+      try:
+        if(node.right.type == "NumberLiteral"):
+          self.foundConstant = True
+        elif(node.left.type == "NumberLiteral"):
+          self.foundConstant = True
+      except:
+        pass
     
   def analyze(self, ast):
     chipsSquadVisitor = self.ChipsSquadVisitor()
