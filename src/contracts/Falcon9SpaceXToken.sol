@@ -79,7 +79,7 @@ contract TokenERC20 is ERC20Interface, Owned{
   string public symbol;
   string public name;
   uint8 public decimals;
-  uint _totalSupply;
+  uint _totalSupply; 
   address public newun;
 
   mapping(address => uint) balances;

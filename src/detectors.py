@@ -87,3 +87,32 @@ class TokenBurningDetector(Detector):
     if(NATVisitor.foundTransfer_to_NullAddress):
       return True
     return False
+
+class HiddenMintDetector(Detector): 
+  class HiddenMintVisitor:
+    def __init__(self):
+      self.foundModified = False
+
+    def visitMemberAccess(self, node):
+      if((node.expression.name == "_totalSupply") and (node.memberName == "add")) :
+        self.foundModified = True
+
+    def visitBinaryOperation(self, node):
+      if(node.operator == "=" and node.left.name == "_totalSupply"): 
+        if(node.right.type == "BinaryOperation"):
+          if(node.right.operator == "+" ):
+            if(node.right.left.type == "Identifier"):
+              if(node.right.left.name == "_totalSupply"):
+                self.foundModified = True
+            elif(node.right.right.type == "Identifier"):
+              if(node.right.right.name == "_totalSupply"): 
+                self.foundModified = True
+    
+  def analyze(self, ast):
+    hiddenMintVisitor = self.HiddenMintVisitor()
+    parser.visit(ast, hiddenMintVisitor)
+
+
+    if(hiddenMintVisitor.foundModified):
+      return True
+    return False
