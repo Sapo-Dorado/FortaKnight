@@ -13,7 +13,7 @@ print("Starting analysis...")
 
 files = os.listdir(contract_dir)
 for filename in files:
-  print(f"analyzing file {total}")
+  print(f"analyzing file {filename}")
   total += 1
   if(hiddenMint.check_file(f"{contract_dir}/{filename}")):
     counts += 1
