@@ -6,16 +6,22 @@ class BalanceRemovalDetector(Detector):
     def __init__(self):
       self.transfers = []
     def visitFunctionCall(self, node):
-      if(node.expression.type == "MemberAccess" and node.expression.memberName == "transfer"):
-        self.transfers.append(node)
+      try:
+        if(node.expression.type == "MemberAccess" and node.expression.memberName == "transfer"):
+          self.transfers.append(node)
+      except:
+        pass
   
   class BalanceVisitor:
     def __init__(self):
       self.foundBalance = False
 
     def visitMemberAccess(self, node):
-      if node.memberName == "balance":
-        self.foundBalance = True
+      try:
+        if node.memberName == "balance":
+          self.foundBalance = True
+      except:
+        pass
 
   def analyze(self, ast):
     transferVisitor = self.TransferVisitor()
@@ -35,8 +41,11 @@ class SelfDestructDetector(Detector):
       self.foundSelfDestruct = False
       
     def visitIdentifier(self, node):
-      if node.name == "selfdestruct":
-        self.foundSelfDestruct = True
+      try:
+        if node.name == "selfdestruct":
+          self.foundSelfDestruct = True
+      except:
+        pass
 
   def analyze(self, ast):
     selfDestructVisitor = self.SelfDestructVisitor()
@@ -52,10 +61,13 @@ class ChipsSquadDetector(Detector):
       self.foundConstant = False
 
     def visitBinaryOperation(self, node):
-      if(node.right.type == "NumberLiteral"):
-        self.foundConstant = True
-      elif(node.left.type == "NumberLiteral"):
-        self.foundConstant = True
+      try:
+        if(node.right.type == "NumberLiteral"):
+          self.foundConstant = True
+        elif(node.left.type == "NumberLiteral"):
+          self.foundConstant = True
+      except:
+        pass
     
   def analyze(self, ast):
     chipsSquadVisitor = self.ChipsSquadVisitor()
@@ -71,14 +83,17 @@ class TokenBurningDetector(Detector):
       self.foundTransfer_to_NullAddress = False
     
     def visitEmitStatement(self, node):#Detecting for the statement emit Transfer(from, to, amount); where to = address(0)
-      if((node.eventCall.type == "FunctionCall") and (node.eventCall.expression.type == "Identifier") and (node.eventCall.expression.name == "Transfer")):
-        arguments = node.eventCall.arguments
-        if(arguments[1]):
-          if((arguments[1].type == "FunctionCall") and (arguments[1].expression.type == "ElementaryTypeName") and (arguments[1].expression.name == "address")):
-            subargument = arguments[1].arguments
-            if(subargument):
-              if((subargument[0].type == "NumberLiteral") and (subargument[0].number == "0")):
-                self.foundTransfer_to_NullAddress = True
+      try:
+        if((node.eventCall.type == "FunctionCall") and (node.eventCall.expression.type == "Identifier") and (node.eventCall.expression.name == "Transfer")):
+          arguments = node.eventCall.arguments
+          if(arguments[1]):
+            if((arguments[1].type == "FunctionCall") and (arguments[1].expression.type == "ElementaryTypeName") and (arguments[1].expression.name == "address")):
+              subargument = arguments[1].arguments
+              if(subargument):
+                if((subargument[0].type == "NumberLiteral") and (subargument[0].number == "0")):
+                  self.foundTransfer_to_NullAddress = True
+      except:
+        pass
   
   def analyze(self, ast):
     NATVisitor = self.NullAddressTransferVisitor()
@@ -94,19 +109,25 @@ class HiddenMintDetector(Detector):
       self.foundModified = False
 
     def visitMemberAccess(self, node):
-      if((node.expression.name == "_totalSupply") and (node.memberName == "add")) :
-        self.foundModified = True
+      try:
+        if((node.expression.name == "_totalSupply") and (node.memberName == "add")) :
+          self.foundModified = True
+      except:
+        pass
 
     def visitBinaryOperation(self, node):
-      if(node.operator == "=" and node.left.name == "_totalSupply"): 
-        if(node.right.type == "BinaryOperation"):
-          if(node.right.operator == "+" ):
-            if(node.right.left.type == "Identifier"):
-              if(node.right.left.name == "_totalSupply"):
-                self.foundModified = True
-            elif(node.right.right.type == "Identifier"):
-              if(node.right.right.name == "_totalSupply"): 
-                self.foundModified = True
+      try:
+        if(node.operator == "=" and node.left.name == "_totalSupply"): 
+          if(node.right.type == "BinaryOperation"):
+            if(node.right.operator == "+" ):
+              if(node.right.left.type == "Identifier"):
+                if(node.right.left.name == "_totalSupply"):
+                  self.foundModified = True
+              elif(node.right.right.type == "Identifier"):
+                if(node.right.right.name == "_totalSupply"): 
+                  self.foundModified = True
+      except:
+        pass
     
   def analyze(self, ast):
     hiddenMintVisitor = self.HiddenMintVisitor()
