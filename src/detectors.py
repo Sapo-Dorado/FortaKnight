@@ -62,10 +62,9 @@ class ChipsSquadDetector(Detector):
 
     def visitBinaryOperation(self, node):
       try:
-        if(node.right.type == "NumberLiteral"):
-          self.foundConstant = True
-        elif(node.left.type == "NumberLiteral"):
-          self.foundConstant = True
+        if(node.operator == "=="):
+          if(node.right.type == "NumberLiteral" or node.left.type == "NumberLiteral"):
+            self.foundConstant = True
       except:
         pass
     
