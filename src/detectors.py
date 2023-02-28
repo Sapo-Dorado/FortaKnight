@@ -136,3 +136,27 @@ class HiddenMintDetector(Detector):
     if(hiddenMintVisitor.foundModified):
       return True
     return False
+
+class HiddenMintDetectorV2(Detector):
+  class FromNullAddressTransferVisitor:
+    def __init__(self):
+      self.foundTransfer_from_NullAddress = False
+    
+    def visitEmitStatement(self, node):#Detecting for the statement emit Transfer(from, to, amount); where from = address(0)
+      try:
+        if((node.eventCall.type == "FunctionCall") and (node.eventCall.expression.type == "Identifier") and (node.eventCall.expression.name == "Transfer")):
+          arguments = node.eventCall.arguments
+          if((arguments[0].type == "FunctionCall") and (arguments[0].expression.type == "ElementaryTypeName") and (arguments[0].expression.name == "address")):
+            subargument = arguments[0].arguments
+            if((subargument[0].type == "NumberLiteral") and (subargument[0].number == "0")):
+              self.foundTransfer_from_NullAddress = True
+      except:
+        pass
+  
+  def analyze(self, ast):
+    MintDetectorV2 = self.FromNullAddressTransferVisitor()
+    parser.visit(ast, MintDetectorV2)
+
+    if(MintDetectorV2.foundTransfer_from_NullAddress):
+      return True
+    return False
