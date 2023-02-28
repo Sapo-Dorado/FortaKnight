@@ -55,27 +55,6 @@ class SelfDestructDetector(Detector):
       return True
     return False
   
-class ChipsSquadDetector(Detector): 
-  class ChipsSquadVisitor:
-    def __init__(self):
-      self.foundConstant = False
-
-    def visitBinaryOperation(self, node):
-      try:
-        if(node.operator == "=="):
-          if(node.right.type == "NumberLiteral" or node.left.type == "NumberLiteral"):
-            self.foundConstant = True
-      except:
-        pass
-    
-  def analyze(self, ast):
-    chipsSquadVisitor = self.ChipsSquadVisitor()
-    parser.visit(ast, chipsSquadVisitor)
-
-    if(chipsSquadVisitor.foundConstant):
-      return True
-    return False
-
 class TokenBurningDetector(Detector):
   class NullAddressTransferVisitor:
     def __init__(self):

@@ -5,8 +5,7 @@ import os
 contract_dir = "./analysis/Hidden_Mints"
 
 hiddenMint1 = HiddenMintDetector()
-hiddenMint2 = ChipsSquadDetector()
-hiddenMint3 = HiddenMintDetectorV2()
+hiddenMint2 = HiddenMintDetectorV2()
 
 counts1 = 0
 counts2 = 0
@@ -24,12 +23,9 @@ for filename in files:
     counts1 += 1
   if(hiddenMint2.check_file(f"{contract_dir}/{filename}")):
     counts2 += 1
-  if(hiddenMint3.check_file(f"{contract_dir}/{filename}")):
-    counts3 += 1
   
 
 
 print("Analysis completed!")
 print(f"Hidden Mint 1: {counts1}/{total}")
-print(f"ChipsSquad: {counts2}/{total}")
-print(f"Hidden Mint 2: {counts3}/{total}")
+print(f"Hidden Mint 2: {counts2}/{total}")
