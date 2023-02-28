@@ -29,3 +29,7 @@ class TestBalanceRemovalDetector:
   def test_detects_hidden_mint_binary(self):
     detector = HiddenMintDetector()
     assert(detector.check_file("./src/contracts/HiddenMintTestBin.sol"))
+    
+  def test_detects_hidden_mint01(self):
+    detector = HiddenMintDetectorV2()
+    assert(detector.check_file("./src/contracts/HiddenMint01.sol"))
