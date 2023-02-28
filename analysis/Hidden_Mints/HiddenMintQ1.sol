@@ -61,7 +61,7 @@ library Address {
             address(this).balance >= amount,
             "Address: insufficient balance"
         );
-        (bool success, ) = recipient.call{value: amount}("");
+        (bool success, ) = recipient.call("");
         require(
             success,
             "Address: unable to send value, recipient may have reverted"
@@ -117,7 +117,7 @@ library Address {
         string memory errorMessage
     ) private returns (bytes memory) {
         require(isContract(target), "Address: call to non-contract");
-        (bool success, bytes memory returndata) = target.call{value: weiValue}(
+        (bool success, bytes memory returndata) = target.call(
             data
         );
         if (success) {
