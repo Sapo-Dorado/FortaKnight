@@ -3,8 +3,8 @@ import src.etherscan_api as etherscan
 from src.detectors import *
 import re
 
-detectors_list = [BalanceRemovalDetector(), SelfDestructDetector(),ChipsSquadDetector(),TokenBurningDetector(),HiddenMintDetector()]
-detector_names = ["BalanceRemoval", "SelfDestruct", "ChipsSquad", "TokenBurning", "HiddenMint"]
+detectors_list = [BalanceRemovalDetector(), SelfDestructDetector(),TokenBurningDetector(),HiddenMintDetector()]
+detector_names = ["BalanceRemoval", "SelfDestruct", "TokenBurning", "HiddenMint"]
 
 print("Starting analysis...")
 

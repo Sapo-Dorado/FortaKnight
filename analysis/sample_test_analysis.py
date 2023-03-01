@@ -2,12 +2,13 @@ from collections import defaultdict
 from src.detectors import *
 import os
 
-contract_dir = "./analysis/Contracts"
+contract_dir = "./analysis/Testing_Samples"
 
 detectors_list = [BalanceRemovalDetector(), SelfDestructDetector(),TokenBurningDetector(),HiddenMintDetector(),HiddenMintDetectorV2()]
 detector_names = ["BalanceRemoval", "SelfDestruct", "TokenBurning", "HiddenMint", "HiddenMintV2"]
 
 detector_counts = defaultdict(int)
+detector_Notfilenames = defaultdict(list)
 
 print("Starting analysis...")
 
@@ -19,10 +20,14 @@ for filename in files:
   for i in range(len(detectors_list)):
     if detectors_list[i].check_file(f"{contract_dir}/{filename}"):
       detector_counts[detector_names[i]] += 1
+    else:
+      detector_Notfilenames[detector_names[i]].append(filename)
 
 print("Analysis completed!")
 print("Results:")
 for i in range(len(detectors_list)):
   name = detector_names[i]
   print(f"{name}: {detector_counts[name]}/{file_count}")
+  print(f"{name}: {detector_Notfilenames[name]}")
+
 
