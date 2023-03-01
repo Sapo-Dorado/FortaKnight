@@ -116,3 +116,21 @@ class HiddenMintDetector(Detector):
     if(hiddenMintVisitor.foundModified):
       return True
     return False
+  
+
+class BlockListDetector(Detector):
+  class BlockListVisitor:
+    def __init__(self):
+      self.found_BlockList = False
+    
+    def visitMapping(self, node):
+      if((node.keyType.name == "address") and (node.valueType.name == "bool")):
+        self.found_BlockList = True
+
+  def analyze(self, ast):
+    blockListVisitor = self.BlockListVisitor()
+    parser.visit(ast, blockListVisitor)
+
+    if(blockListVisitor.found_BlockList):
+      return True
+    return False
