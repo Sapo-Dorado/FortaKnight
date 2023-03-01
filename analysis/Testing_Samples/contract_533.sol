@@ -1,4 +1,4 @@
-pragma solidity ^0.4.13;
+pragma solidity ^0.4.2;
 
 /**
  * @title SafeMath
@@ -41,7 +41,6 @@ contract ERC20Basic {
   function transfer(address to, uint256 value) returns (bool);
   event Transfer(address indexed from, address indexed to, uint256 value);
 }
-
 /**
  * @title ERC20 interface
  * @dev see https://github.com/ethereum/EIPs/issues/20
@@ -146,154 +145,15 @@ contract StandardToken is ERC20, BasicToken {
 
 }
 
-/**
- * @title Ownable
- * @dev The Ownable contract has an owner address, and provides basic authorization control
- * functions, this simplifies the implementation of "user permissions".
- */
-contract Ownable {
-  address public owner;
 
-
-  /**
-   * @dev The Ownable constructor sets the original `owner` of the contract to the sender
-   * account.
-   */
-  function Ownable() {
-    owner = msg.sender;
-  }
-
-
-  /**
-   * @dev Throws if called by any account other than the owner.
-   */
-  modifier onlyOwner() {
-    require(msg.sender == owner);
-    _;
-  }
-
-
-  /**
-   * @dev Allows the current owner to transfer control of the contract to a newOwner.
-   * @param newOwner The address to transfer ownership to.
-   */
-  function transferOwnership(address newOwner) onlyOwner {
-    if (newOwner != address(0)) {
-      owner = newOwner;
-    }
-  }
-
-}
-
-/**
- * @title Pausable
- * @dev Base contract which allows children to implement an emergency stop mechanism.
- */
-contract Pausable is Ownable {
-  event Pause();
-  event Unpause();
-
-  bool public paused = false;
-
-
-  /**
-   * @dev modifier to allow actions only when the contract IS paused
-   */
-  modifier whenNotPaused() {
-    require(!paused);
-    _;
-  }
-
-  /**
-   * @dev modifier to allow actions only when the contract IS NOT paused
-   */
-  modifier whenPaused {
-    require(paused);
-    _;
-  }
-
-  /**
-   * @dev called by the owner to pause, triggers stopped state
-   */
-  function pause() onlyOwner whenNotPaused returns (bool) {
-    paused = true;
-    Pause();
-    return true;
-  }
-
-  /**
-   * @dev called by the owner to unpause, returns to normal state
-   */
-  function unpause() onlyOwner whenPaused returns (bool) {
-    paused = false;
-    Unpause();
-    return true;
-  }
-}
-
-/**
- * @title AmazingCoin
- * @dev ERC20 AmazingCoin
- *
- * 
- * 
- *
- * 
- *
- * 
- *   
- *
- * 
- *   
- *
- * 
- * 
- *
- */
-contract AmazingCoin is StandardToken, Pausable {
-
-  string public constant name = 'AmazingCoin';                       // Set the token name for display
-  string public constant symbol = 'AMZ';                                       // Set the token symbol for display
-  uint8 public constant decimals = 8;                                          // Set the number of decimals for display
-  uint256 public constant INITIAL_SUPPLY = 5500000000000000; //  AMZ
-
-  /**
-   * @dev AmazingCoin Constructor
-   * Runs only on initial contract creation.
-   */
-  function AmazingCoin() {
-    totalSupply = INITIAL_SUPPLY;                               // Set the total supply
-    balances[msg.sender] = INITIAL_SUPPLY;                      // Creator address is assigned all
-  }
-
-  /**
-   * @dev Transfer token for a specified address when not paused
-   * @param _to The address to transfer to.
-   * @param _value The amount to be transferred.
-   */
-  function transfer(address _to, uint256 _value) whenNotPaused returns (bool) {
-    require(_to != address(0));
-    return super.transfer(_to, _value);
-  }
-
-  /**
-   * @dev Transfer tokens from one address to another when not paused
-   * @param _from address The address which you want to send tokens from
-   * @param _to address The address which you want to transfer to
-   * @param _value uint256 the amount of tokens to be transferred
-   */
-  function transferFrom(address _from, address _to, uint256 _value) whenNotPaused returns (bool) {
-    require(_to != address(0));
-    return super.transferFrom(_from, _to, _value);
-  }
-
-  /**
-   * @dev Aprove the passed address to spend the specified amount of tokens on behalf of msg.sender when not paused.
-   * @param _spender The address which will spend the funds.
-   * @param _value The amount of tokens to be spent.
-   */
-  function approve(address _spender, uint256 _value) whenNotPaused returns (bool) {
-    return super.approve(_spender, _value);
-  }
-
+contract Faa is StandardToken {
+	string public name = 'Flying Apsara';
+	string public symbol = 'FAA';
+	uint public decimals = 18;
+	uint public INITIAL_SUPPLY = 168000000000000000000000000;
+	
+	function Faa() {
+		totalSupply = INITIAL_SUPPLY;
+		balances[msg.sender] = INITIAL_SUPPLY;
+	}
 }
