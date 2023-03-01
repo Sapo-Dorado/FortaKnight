@@ -1,12 +1,12 @@
 {
   "name": "forta-knight-initial-bot",
-  "version": "0.1.2",
-  "description": "This bot detects transactions from blacklisted addresses",
+  "version": "0.2.0",
+  "description": "This bot uses static analysis to detect contract functionality used in rug pulls",
   "chainIds": [
     1,
-    37,
     137
   ],
+  "repository" : "https://github.com/Sapo-Dorado/FortaKnight"
   "scripts": {
     "postinstall": "python3 -m pip install -r requirements_dev.txt",
     "start": "npm run start:dev",
