@@ -386,12 +386,11 @@ contract BurnableToken is StandardToken {
      * @dev Burns a specific amount of tokens.
      * @param _value The amount of token to be burned.
      */
-    function burn(uint256 _value) public {
+    function burn(uint256 _value) public { //Burn function
         require(_value > 0);
         require(_value <= balances[msg.sender]);
         // no need to require value <= totalSupply, since that would imply the
         // sender's balance is greater than the totalSupply, which *should* be an assertion failure
-
         address burner = msg.sender;
         balances[burner] = balances[burner].sub(_value);
         totalSupply_ = totalSupply_.sub(_value);
@@ -454,7 +453,7 @@ contract CES_Token is BurnableToken, Owned {
     }
 
     // @dev create specified number of tokens and transfer to destination
-    function createTokensInt(uint256 _tokens, address _destination) internal onlyOwner {
+    function createTokensInt(uint256 _tokens, address _destination) internal onlyOwner { //MINT FUNCTION
         uint256 tokens = _tokens * 10**uint256(decimals);
         totalSupply_ = totalSupply_.add(tokens);
         balances[_destination] = balances[_destination].add(tokens);
