@@ -16,6 +16,8 @@ class IfStatementDetector(Detector):
     visitor = self.IfStatementVisitor()
     parser.visit(ast, visitor)
     return visitor.has_if
+  def alert(self):
+    return "If statement detected"
     
 
 
