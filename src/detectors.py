@@ -1,5 +1,7 @@
 from src.parser import Detector
 import src.parser as parser
+import src.etherscan_api as etherscan
+import re
 
 class BalanceRemovalDetector(Detector):
   class TransferVisitor:
@@ -34,6 +36,9 @@ class BalanceRemovalDetector(Detector):
         return True
     return False
   
+  def alert(self):
+    return "Balance Removal Detected: contract at address {} contains a function has the ability to extract the entire balance of the contract"
+  
   
 class SelfDestructDetector(Detector):
   class SelfDestructVisitor:
@@ -54,6 +59,9 @@ class SelfDestructDetector(Detector):
     if selfDestructVisitor.foundSelfDestruct:
       return True
     return False
+
+  def alert(self):
+    return "Self Destruct Detected: contract at address {} contains a function has the ability to self destruct the contract"
   
 class TokenBurningDetector(Detector):
   class NullAddressTransferVisitor:
@@ -80,9 +88,25 @@ class TokenBurningDetector(Detector):
     if(NATVisitor.foundTransfer_to_NullAddress):
       return True
     return False
+  
+  def alert(self):
+    return "Burn Function Detected: contract at address {} contains a function that can burn tokens"
 
 class HiddenMintDetector(Detector): 
-  class HiddenMintVisitor:
+    
+    
+  def analyze(self, ast):
+    hiddenMintVisitor = self.HiddenMintVisitor()
+    parser.visit(ast, hiddenMintVisitor)
+
+
+    if(hiddenMintVisitor.foundModified):
+      return True
+    return False
+
+
+class HiddenMintDetector(Detector):
+  class TotalSupplyModificationVisitor:
     def __init__(self):
       self.foundModified = False
 
@@ -106,17 +130,6 @@ class HiddenMintDetector(Detector):
                   self.foundModified = True
       except:
         pass
-    
-  def analyze(self, ast):
-    hiddenMintVisitor = self.HiddenMintVisitor()
-    parser.visit(ast, hiddenMintVisitor)
-
-
-    if(hiddenMintVisitor.foundModified):
-      return True
-    return False
-
-class HiddenMintDetectorV2(Detector):
   class FromNullAddressTransferVisitor:
     def __init__(self):
       self.foundTransfer_from_NullAddress = False
@@ -133,9 +146,34 @@ class HiddenMintDetectorV2(Detector):
         pass
   
   def analyze(self, ast):
-    MintDetectorV2 = self.FromNullAddressTransferVisitor()
-    parser.visit(ast, MintDetectorV2)
+    nullAddressTransferVisitor = self.FromNullAddressTransferVisitor()
+    parser.visit(ast, nullAddressTransferVisitor)
 
-    if(MintDetectorV2.foundTransfer_from_NullAddress):
+    supplyVisitor = self.TotalSupplyModificationVisitor()
+    parser.visit(ast, supplyVisitor)
+
+
+    if(supplyVisitor.foundModified):
       return True
+
+    if(nullAddressTransferVisitor.foundTransfer_from_NullAddress):
+      return True
+
     return False
+
+  def alert(self):
+    return "Mint Function Detected: contract at address {} contains a function that can mint tokens"
+
+def processContract(address):
+  detectors_list = [BalanceRemovalDetector(), SelfDestructDetector(),TokenBurningDetector(),HiddenMintDetector()]
+  findings = []
+  
+  sourceCode = etherscan.getSourceCode(address)
+  sourceCode = re.sub(r'{\s*value:.*?}', '', sourceCode)
+  try:
+    for detector in detectors_list:
+      if(detector.check(sourceCode)):
+        findings.append(detector.alert().format(str(address)))
+  except:
+    pass
+  return findings

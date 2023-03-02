@@ -14,6 +14,11 @@ class Detector(ABC):
   @abstractmethod
   def analyze(self, ast):
     return False
+  
+  #returns the alert message
+  @abstractmethod
+  def alert(self):
+    return ""
 
 def parse_file(file):
   return parser.parse_file(file, loc=False)
