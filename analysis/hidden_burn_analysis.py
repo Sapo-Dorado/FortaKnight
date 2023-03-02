@@ -2,9 +2,9 @@ from collections import defaultdict
 from src.detectors import *
 import os
 
-contract_dir = "./analysis/Hidden_Burns"
+contract_dir = "./analysis/Testing_Samples"
 
-hiddenMint = HiddenMintDetector()
+hiddenMint = SelfDestructDetector()
 
 counts = 0
 total = 0
@@ -16,6 +16,7 @@ for filename in files:
   print(f"analyzing file {filename}")
   total += 1
   if(hiddenMint.check_file(f"{contract_dir}/{filename}")):
+    print("burn")
     counts += 1
 
 print("Analysis completed!")

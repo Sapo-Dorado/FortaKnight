@@ -4,8 +4,8 @@ import os
 
 contract_dir = "./analysis/Contracts"
 
-detectors_list = [BalanceRemovalDetector(), SelfDestructDetector(),ChipsSquadDetector(),TokenBurningDetector(),HiddenMintDetector(),HiddenMintDetectorV2()]
-detector_names = ["BalanceRemoval", "SelfDestruct", "ChipsSquad", "TokenBurning", "HiddenMint", "HiddenMintV2"]
+detectors_list = [BalanceRemovalDetector(), SelfDestructDetector(),TokenBurningDetector(),HiddenMintDetector(),HiddenMintDetectorV2()]
+detector_names = ["BalanceRemoval", "SelfDestruct", "TokenBurning", "HiddenMint", "HiddenMintV2"]
 
 detector_counts = defaultdict(int)
 
