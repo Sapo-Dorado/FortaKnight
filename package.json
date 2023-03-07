@@ -6,7 +6,7 @@
     1,
     137
   ],
-  "repository" : "https://github.com/Sapo-Dorado/FortaKnight"
+  "repository" : "https://github.com/Sapo-Dorado/FortaKnight",
   "scripts": {
     "postinstall": "python3 -m pip install -r requirements_dev.txt",
     "start": "npm run start:dev",

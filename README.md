@@ -2,25 +2,24 @@
 
 ## Description
 
-This agent detects transactions from blacklisted addresses
+This agent detects activity typically associated rug pulls
 
 ## Supported Chains
 
 - Ethereum
-- Any chain with addresses
+- Polygon
 
 ## Alerts
 
-Describe each of the type of alerts fired by this agent
-
 - FORTAKNIGHT-1
-  - Fired when a transaction is from a blacklisted address
-  - Severity is always set to "high" 
+  - Fired when one of our detectors detects activity typically associated rug pulls 
+  - description explains the type of potential rug pull functionality detected
+  - Severity is always set to "low" 
   - Type is always set to "info"
-  - from is the address that sent the transaction
+  - addresses includes the address of the contract and the deployer
 
 ## Test Data
 
 The agent behaviour can be verified with the following transactions:
 
-- 0xbfc0b941e0110b323a461208209f583656120dd754287c71603f2bf4d589fce7
+- 0x53d1c582bee01963953e458b4b74303a246cc9ede65647607ea1e007bcb9cb83
