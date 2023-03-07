@@ -66,7 +66,7 @@ class SelfDestructDetector(Detector):
 class TokenBurningDetector(Detector):
   class NullAddressTransferVisitor:
     def __init__(self):
-      self.foundTransfer_to_NullAddress = False
+      self.foundBurn = False
     
     def visitEmitStatement(self, node):#Detecting for the statement emit Transfer(from, to, amount); where to = address(0)
       try:
@@ -77,7 +77,15 @@ class TokenBurningDetector(Detector):
               subargument = arguments[1].arguments
               if(subargument):
                 if((subargument[0].type == "NumberLiteral") and (subargument[0].number == "0")):
-                  self.foundTransfer_to_NullAddress = True
+                  self.foundBurn = True
+      except:
+        pass
+
+    #Picks up emit statments
+    def visitFunctionCall(self, node):
+      try:
+        if(node.expression.name == "burn" or node.expression.name == "Burn"):
+          self.foundBurn = True
       except:
         pass
   
@@ -85,9 +93,7 @@ class TokenBurningDetector(Detector):
     NATVisitor = self.NullAddressTransferVisitor()
     parser.visit(ast, NATVisitor)
 
-    if(NATVisitor.foundTransfer_to_NullAddress):
-      return True
-    return False
+    return NATVisitor.foundBurn
   
   def alert(self):
     return "Burn Function Detected: contract at address {} contains a function that can burn tokens"
