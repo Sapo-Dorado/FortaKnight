@@ -3,8 +3,7 @@
   "version": "0.2.0",
   "description": "This bot uses static analysis to detect contract functionality used in rug pulls",
   "chainIds": [
-    1,
-    137
+    1
   ],
   "repository" : "https://github.com/Sapo-Dorado/FortaKnight",
   "scripts": {

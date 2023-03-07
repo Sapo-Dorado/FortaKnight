@@ -7,7 +7,6 @@ This agent detects activity typically associated rug pulls
 ## Supported Chains
 
 - Ethereum
-- Polygon
 
 ## Alerts
 
