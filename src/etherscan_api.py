@@ -5,12 +5,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-API_KEY = os.environ['ETHERSCAN_API_KEY']
+API_KEY_ETH = os.environ['ETHERSCAN_API_KEY']
+API_KEY_POL = os.environ['POLYGON_API_KEY']
 
-def getSourceCode(address):
+def getSourceCode_Eth(address):
       # Input: address of contract
       # Output: only the source code of contract
-      url = "https://api.etherscan.io/api?module=contract&action=getsourcecode&address=" + address + "&apikey=" + API_KEY
+      url = "https://api.etherscan.io/api?module=contract&action=getsourcecode&address=" + address + "&apikey=" + API_KEY_ETH
       r = requests.get(url)
       data = r.json()
       result = data.get("result")
@@ -42,7 +43,7 @@ def getContractInfo(address):
       #       }
       # ]
       # }
-      url = "https://api.etherscan.io/api?module=contract&action=getsourcecode&address=" + address + "&apikey=" + API_KEY
+      url = "https://api.etherscan.io/api?module=contract&action=getsourcecode&address=" + address + "&apikey=" + API_KEY_ETH
       r = requests.get(url)
       data = r.json()
       return data
@@ -59,7 +60,15 @@ def checkContractStatus(address):
       #       "errDescription":"Bad jump destination"
       # }
       # }
-      url = "https://api.etherscan.io/api?module=transaction&action=getstatus&txhash=" + address + "&apikey=" + API_KEY
+      url = "https://api.etherscan.io/api?module=transaction&action=getstatus&txhash=" + address + "&apikey=" + API_KEY_ETH
       results = requests.get(url)
       data = results.json()
       return data
+
+def getSourceCode_Pol(address):
+      url = "https://api.polygonscan.com/api?module=contract&action=getsourcecode&address=" + address + "&apikey=" + API_KEY_POL
+      r = requests.get(url)
+      data = r.json()
+      result = data.get("result")
+      source = result[0].get("SourceCode")
+      return source
