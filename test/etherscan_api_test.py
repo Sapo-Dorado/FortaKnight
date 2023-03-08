@@ -28,7 +28,7 @@ class TestEtherscanApi:
             mock_get.return_value.json.return_value = mock_response
             address = "0xb429dA13f0Bf08962c26e44Ba34627e7b0E560F6"
 
-            source = etherscan.getSourceCode(address)
+            source = etherscan.getSourceCodeEth(address)
 
         assert(source == "Mock_Source_Code")
 
