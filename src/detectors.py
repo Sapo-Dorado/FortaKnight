@@ -169,12 +169,14 @@ class HiddenMintDetector(Detector):
 
   def alert(self):
     return "Mint Function Detected: contract at address {} contains a function that can mint tokens"
-
-def processContract(address):
+def processContract(chain_id, address):
   detectors_list = [BalanceRemovalDetector(), SelfDestructDetector(),TokenBurningDetector(),HiddenMintDetector()]
   findings = []
-  
-  sourceCode = etherscan.getSourceCode(address)
+  sourceCode = ""
+  if(chain_id == 1):
+    sourceCode = etherscan.getSourceCodeEth(address)
+  elif (chain_id == 137):
+    sourceCode = etherscan.getSourceCodePoly(address)
   sourceCode = re.sub(r'{\s*value:.*?}', '', sourceCode)
   try:
     for detector in detectors_list:
