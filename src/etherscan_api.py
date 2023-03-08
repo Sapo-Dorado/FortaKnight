@@ -5,8 +5,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-API_KEY_ETH = os.environ['ETHERSCAN_API_KEY']
-API_KEY_POL = os.environ['POLYGONSCAN_API_KEY']
+API_KEY_ETH = os.environ['ETHERSCAN_API_KEY'] if 'ETHERSCAN_API_KEY' in os.environ else ""
+API_KEY_POL = os.environ['POLYGONSCAN_API_KEY'] if 'POLYGONSCAN_API_KEY' in os.environ else ""
 
 def getSourceCodeEth(address):
       # Input: address of contract
