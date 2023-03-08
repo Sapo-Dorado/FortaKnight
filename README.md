@@ -7,6 +7,7 @@ This agent detects activity typically associated rug pulls
 ## Supported Chains
 
 - Ethereum
+- Polygon
 
 ## Alerts
 
@@ -15,7 +16,9 @@ This agent detects activity typically associated rug pulls
   - description explains the type of potential rug pull functionality detected
   - Severity is always set to "low" 
   - Type is always set to "info"
-  - addresses includes the address of the contract and the deployer
+  - transaction_hash is the hash of the transaction to create the contract
+  - contract_address is the address of the contract
+  - deployer is the address that deployed the contract
 
 ## Test Data
 

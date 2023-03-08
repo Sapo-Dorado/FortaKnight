@@ -6,9 +6,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 API_KEY_ETH = os.environ['ETHERSCAN_API_KEY']
-API_KEY_POL = os.environ['POLYGON_API_KEY']
+API_KEY_POL = os.environ['POLYGONSCAN_API_KEY']
 
-def getSourceCode_Eth(address):
+def getSourceCodeEth(address):
       # Input: address of contract
       # Output: only the source code of contract
       url = "https://api.etherscan.io/api?module=contract&action=getsourcecode&address=" + address + "&apikey=" + API_KEY_ETH
@@ -65,7 +65,7 @@ def checkContractStatus(address):
       data = results.json()
       return data
 
-def getSourceCode_Pol(address):
+def getSourceCodePoly(address):
       url = "https://api.polygonscan.com/api?module=contract&action=getsourcecode&address=" + address + "&apikey=" + API_KEY_POL
       r = requests.get(url)
       data = r.json()
