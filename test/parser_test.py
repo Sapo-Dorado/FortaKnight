@@ -18,6 +18,8 @@ class IfStatementDetector(Detector):
     return visitor.has_if
   def alert(self):
     return "If statement detected"
+  def alert_id(self):
+    return "IF-STATEMENT"
     
 
 
