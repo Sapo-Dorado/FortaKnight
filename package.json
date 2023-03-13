@@ -1,6 +1,6 @@
 {
   "name": "forta-knight-rug-pull-detector",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "This bot uses static analysis to detect contract functionality used in rug pulls",
   "chainIds": [
     1,

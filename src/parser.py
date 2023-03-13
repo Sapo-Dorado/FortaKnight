@@ -20,6 +20,11 @@ class Detector(ABC):
   def alert(self):
     return ""
 
+  #returns the forta alert_id
+  @abstractmethod
+  def alert_id(self):
+    return ""
+
 def parse_file(file):
   return parser.parse_file(file, loc=False)
 
