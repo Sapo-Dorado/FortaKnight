@@ -28,11 +28,11 @@ def handle_cached_transactions():
     global cache
     findings = []
     while(len(cache) > 0 and datetime.now() - datetime.fromtimestamp(cache[0]["timestamp"]) > timedelta(minutes=5)):
-        for description in processContract(cache[0]["chain_id"], cache[0]["address"]):
+        for alert_id, description in processContract(cache[0]["chain_id"], cache[0]["address"]):
             findings.append(Finding({
                 'name': 'Suspicious Contract Code',
                 'description': description,
-                'alert_id': 'FORTAKNIGHT-1',
+                'alert_id': alert_id,
                 'severity': FindingSeverity.Low,
                 'type': FindingType.Info,
                 'metadata': {

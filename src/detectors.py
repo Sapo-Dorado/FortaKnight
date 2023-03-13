@@ -3,6 +3,7 @@ import src.parser as parser
 import src.etherscan_api as etherscan
 import re
 
+#Looks for a transfer of an address's entire balance
 class BalanceRemovalDetector(Detector):
   class TransferVisitor:
     def __init__(self):
@@ -38,8 +39,11 @@ class BalanceRemovalDetector(Detector):
   
   def alert(self):
     return "Balance Removal Detected: contract at address {} contains a function has the ability to extract the entire balance of the contract"
-  
-  
+
+  def alert_id(self):
+    return "BALANCE-REMOVAL"
+
+#Looks for a selfdestruct instruction
 class SelfDestructDetector(Detector):
   class SelfDestructVisitor:
     def __init__(self):
@@ -62,7 +66,11 @@ class SelfDestructDetector(Detector):
 
   def alert(self):
     return "Self Destruct Detected: contract at address {} contains a function has the ability to self destruct the contract"
+
+  def alert_id(self):
+    return "SELF-DESTRUCT"
   
+#Looks for an emit of a Transfer to the null address and emit of a Burn event
 class TokenBurningDetector(Detector):
   class NullAddressTransferVisitor:
     def __init__(self):
@@ -81,7 +89,7 @@ class TokenBurningDetector(Detector):
       except:
         pass
 
-    #Picks up emit statments
+    #Finds burn emit statements
     def visitFunctionCall(self, node):
       try:
         if(node.expression.name == "burn" or node.expression.name == "Burn"):
@@ -97,20 +105,12 @@ class TokenBurningDetector(Detector):
   
   def alert(self):
     return "Burn Function Detected: contract at address {} contains a function that can burn tokens"
-
-class HiddenMintDetector(Detector): 
-    
-    
-  def analyze(self, ast):
-    hiddenMintVisitor = self.HiddenMintVisitor()
-    parser.visit(ast, hiddenMintVisitor)
+  
+  def alert_id(self):
+    return "BURN-FUNCTION"
 
 
-    if(hiddenMintVisitor.foundModified):
-      return True
-    return False
-
-
+#Looks for incrementing of _totalSupply and for emitting a Transfer from the null address
 class HiddenMintDetector(Detector):
   class TotalSupplyModificationVisitor:
     def __init__(self):
@@ -169,8 +169,12 @@ class HiddenMintDetector(Detector):
 
   def alert(self):
     return "Mint Function Detected: contract at address {} contains a function that can mint tokens"
+  
+  def alert_id(self):
+    return "MINT-FUNCTION"
+
 def processContract(chain_id, address):
-  detectors_list = [BalanceRemovalDetector(), SelfDestructDetector(),TokenBurningDetector(),HiddenMintDetector()]
+  detectors_list = [BalanceRemovalDetector(), SelfDestructDetector(), TokenBurningDetector(), HiddenMintDetector()]
   findings = []
   sourceCode = ""
   if(chain_id == 1):
@@ -181,7 +185,7 @@ def processContract(chain_id, address):
   try:
     for detector in detectors_list:
       if(detector.check(sourceCode)):
-        findings.append(detector.alert().format(str(address)))
+        findings.append((detector.alert_id(), detector.alert().format(str(address))))
   except:
     pass
   return findings
